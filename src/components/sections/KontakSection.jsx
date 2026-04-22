@@ -161,20 +161,21 @@ export default function KontakSection() {
               style={{
                 marginTop: "1.5rem",
                 padding: "1.25rem",
-                background: "#fff",
+                background: "var(--surface)",
                 borderRadius: "3px",
-                border: "1px solid var(--cream-dark)",
+                border: "1px solid var(--border)",
               }}
+              className="kk-access-info"
             >
               <p
                 style={{
                   fontSize: ".8rem",
-                  color: "var(--ink-light)",
+                  color: "var(--text-muted)",
                   lineHeight: 1.7,
                   fontWeight: 300,
                 }}
               >
-                <strong style={{ fontWeight: 500, color: "var(--ink)" }}>
+                <strong style={{ fontWeight: 500, color: "var(--text)" }}>
                   Akses menuju Kakaskasen II:
                 </strong>
                 <br />
