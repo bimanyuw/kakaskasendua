@@ -17,6 +17,11 @@ import "./styles/global.css";
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem("kk-theme");
+    if (saved) return saved === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -24,13 +29,21 @@ export default function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", darkMode ? "dark" : "light");
+    localStorage.setItem("kk-theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
   const closeMenu = () => setMenuOpen(false);
+  const toggleDark = () => setDarkMode((prev) => !prev);
 
   return (
     <>
       <Navbar
         scrolled={scrolled}
         onToggleMenu={() => setMenuOpen((prev) => !prev)}
+        darkMode={darkMode}
+        onToggleDark={toggleDark}
       />
       <MobileMenu menuOpen={menuOpen} onClose={closeMenu} />
 

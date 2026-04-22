@@ -1,4 +1,4 @@
-export default function Navbar({ scrolled, onToggleMenu }) {
+export default function Navbar({ scrolled, onToggleMenu, darkMode, onToggleDark }) {
   return (
     <nav className={`kk-nav${scrolled ? " scrolled" : ""}`} id="mainNav">
       <div className="kk-nav-inner">
@@ -15,20 +15,31 @@ export default function Navbar({ scrolled, onToggleMenu }) {
           <li><a href="#kontak">Kontak</a></li>
         </ul>
 
-        <a
-          href="https://jadesta.kemenparekraf.go.id"
-          target="_blank"
-          rel="noreferrer"
-          className="kk-nav-cta"
-        >
-          Paket Wisata
-        </a>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <button
+            className="kk-dark-toggle"
+            onClick={onToggleDark}
+            title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            aria-label={darkMode ? "Aktifkan Mode Terang" : "Aktifkan Mode Gelap"}
+          >
+            {darkMode ? "☀️" : "🌙"}
+          </button>
 
-        <button className="kk-nav-burger" onClick={onToggleMenu}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+          <a
+            href="https://jadesta.kemenparekraf.go.id"
+            target="_blank"
+            rel="noreferrer"
+            className="kk-nav-cta"
+          >
+            Paket Wisata
+          </a>
+
+          <button className="kk-nav-burger" onClick={onToggleMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
     </nav>
   );
