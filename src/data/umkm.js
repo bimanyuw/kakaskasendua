@@ -1,0 +1,38 @@
+export const umkmData = [
+  {
+    img: "https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=400&q=80",
+    alt: "Bunga Potong Lokal",
+    cat: "Tanaman & Bunga",
+    title: "Bunga Potong Khas Tomohon",
+    desc: "Aneka bunga potong segar — krisan, gladiol, bunga lili — hasil kebun warga Kakaskasen II.",
+    price: "Harga bervariasi",
+    waLabel: "Hubungi Penjual",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400&q=80",
+    alt: "Makanan Khas",
+    cat: "Kuliner",
+    title: "Makanan Khas Tradisional",
+    desc: "Kuliner autentik Minahasa — tinutuan, cakalang fufu, woku, dan kue tradisional khas Kakaskasen.",
+    price: "Tersedia di warung lokal",
+    waLabel: "Info Pemesanan",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1582727657635-c771002bdada?w=400&q=80",
+    alt: "Kerajinan Bambu",
+    cat: "Kerajinan",
+    title: "Kerajinan Anyaman Bambu",
+    desc: "Produk anyaman dan kerajinan bambu berkualitas — keranjang, hiasan, souvenir — buatan pengrajin lokal Kakaskasen.",
+    price: "Mulai Rp 25.000",
+    waLabel: "Hubungi Pengrajin",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80",
+    alt: "Tanaman Hias",
+    cat: "Tanaman & Bunga",
+    title: "Tanaman Hias & Bibit Bunga",
+    desc: "Bibit tanaman hias dan bunga segar langsung dari kebun warga. Ragam jenis bunga khas dataran tinggi Tomohon tersedia.",
+    price: "Harga per jenis",
+    waLabel: "Hubungi Petani",
+  },
+];
