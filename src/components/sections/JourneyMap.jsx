@@ -1,10 +1,8 @@
 import { useMemo, useState } from "react";
-import { geoMercator, geoPath } from "d3-geo";
+import { MapContainer, TileLayer, Polygon, Marker, Tooltip } from "react-leaflet";
+import L from "leaflet";
 import { kakaskasenGeojson } from "../../data/kakaskasenGeojson";
 import { journeyPoints } from "../../data/journeyPoints";
-
-const WIDTH = 900;
-const HEIGHT = 560;
 
 const filters = [
   { cat: "all", label: "Semua Lokasi", color: "#2B4D0F" },
@@ -26,44 +24,30 @@ const categoryColors = {
 export default function JourneyMap() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedPoint, setSelectedPoint] = useState(null);
-  const [hoveredPoint, setHoveredPoint] = useState(null);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-  const [isAreaHovered, setIsAreaHovered] = useState(false);
 
+  // Ambil data polygon dari file geojson
   const polygonFeature = kakaskasenGeojson.features.find(
     (feature) => feature.geometry.type === "Polygon"
   );
 
-  const labelPoint = kakaskasenGeojson.features.find(
-    (feature) => feature.geometry.type === "Point"
+  // Balik koordinat dari [lng, lat] (format GeoJSON) ke [lat, lng] (format Leaflet)
+  const polygonPositions = polygonFeature.geometry.coordinates[0].map(
+    coord => [coord[1], coord[0]]
   );
-
-  const projection = useMemo(() => {
-    return geoMercator().fitSize([WIDTH, HEIGHT], polygonFeature);
-  }, [polygonFeature]);
-
-  const pathGenerator = useMemo(() => geoPath(projection), [projection]);
-
-  const areaPath = useMemo(() => {
-    return polygonFeature ? pathGenerator(polygonFeature) : "";
-  }, [polygonFeature, pathGenerator]);
-
-  const projectedLabelPoint = useMemo(() => {
-    if (!labelPoint) return null;
-    return projection(labelPoint.geometry.coordinates);
-  }, [labelPoint, projection]);
 
   const visiblePoints = useMemo(() => {
     if (activeFilter === "all") return journeyPoints;
     return journeyPoints.filter((point) => point.category === activeFilter);
   }, [activeFilter]);
 
-  const handleMarkerHover = (event, point) => {
-    const svgRect = event.currentTarget.ownerSVGElement.getBoundingClientRect();
-    setHoveredPoint(point);
-    setTooltipPos({
-      x: event.clientX - svgRect.left,
-      y: event.clientY - svgRect.top,
+  // Membuat icon titik secara dinamis agar warnanya sesuai kategori
+  const createIcon = (color) => {
+    return L.divIcon({
+      className: "custom-leaflet-icon",
+      html: `<div style="background-color: ${color}; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+      popupAnchor: [0, -8],
     });
   };
 
@@ -115,215 +99,44 @@ export default function JourneyMap() {
             </>
           ) : (
             <div className="kk-pinned-empty">
-              Hover marker untuk preview. Klik marker untuk melihat detail lokasi
-              secara permanen.
+              Klik marker pada peta untuk melihat detail lokasi.
             </div>
           )}
         </div>
       </div>
 
-      <div className="kk-map-canvas">
-        <div className="kk-map-compass">N</div>
-        <div className="kk-map-scale">Journey Map Kakaskasen II</div>
-
-        <svg
-          className="kk-map-svg-premium"
-          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-          preserveAspectRatio="xMidYMid meet"
+      <div className="kk-map-canvas" style={{ borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--cream-dark)', minHeight: "520px", zIndex: 0 }}>
+        {/* Bounds akan otomatis mengarahkan dan menyesuaikan zoom ke polygon Kakaskasen II */}
+        <MapContainer 
+          bounds={polygonPositions} 
+          scrollWheelZoom={false} 
+          style={{ height: "100%", width: "100%", minHeight: "520px", zIndex: 1 }}
         >
-          <defs>
-            <filter id="kkShadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="8" stdDeviation="12" floodOpacity="0.16" />
-            </filter>
-
-            <pattern
-              id="kkGrid"
-              width="36"
-              height="36"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 36 0 L 0 0 0 36"
-                fill="none"
-                stroke="rgba(122,97,72,0.05)"
-                strokeWidth="1"
-              />
-            </pattern>
-          </defs>
-
-          <rect
-            x="0"
-            y="0"
-            width={WIDTH}
-            height={HEIGHT}
-            fill="url(#kkGrid)"
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-
-          <path
-            d={areaPath}
-            className="kk-desa-boundary"
-            onMouseEnter={() => setIsAreaHovered(true)}
-            onMouseLeave={() => setIsAreaHovered(false)}
-            style={{
-              fill: isAreaHovered
-                ? "rgba(200,218,176,0.32)"
-                : "rgba(200,218,176,0.22)",
-              stroke: "#2B4D0F",
-              strokeWidth: isAreaHovered ? 3 : 2,
-              filter: "url(#kkShadow)",
-            }}
+          
+          <Polygon 
+            positions={polygonPositions} 
+            pathOptions={{ color: '#2B4D0F', fillColor: '#C8DAB0', fillOpacity: 0.25, weight: 2 }} 
           />
-
-          <g opacity="0.35">
-            <path
-              d="M260 120 C 340 140, 420 170, 520 180 S 700 190, 760 210"
-              stroke="rgba(122,97,72,0.18)"
-              strokeWidth="3"
-              fill="none"
-              strokeLinecap="round"
-            />
-            <path
-              d="M280 330 C 360 320, 430 310, 510 305 S 640 295, 730 270"
-              stroke="rgba(122,97,72,0.15)"
-              strokeWidth="2.2"
-              fill="none"
-              strokeLinecap="round"
-            />
-            <path
-              d="M420 90 C 430 160, 440 240, 445 360 S 450 460, 455 520"
-              stroke="rgba(122,97,72,0.12)"
-              strokeWidth="2"
-              fill="none"
-              strokeLinecap="round"
-            />
-          </g>
-
-          <g opacity="0.22">
-            <rect x="315" y="210" width="36" height="18" rx="3" fill="rgba(43,77,15,0.18)" />
-            <rect x="360" y="228" width="42" height="20" rx="3" fill="rgba(43,77,15,0.16)" />
-            <rect x="412" y="235" width="30" height="16" rx="3" fill="rgba(43,77,15,0.14)" />
-            <rect x="470" y="245" width="44" height="18" rx="3" fill="rgba(43,77,15,0.16)" />
-            <rect x="520" y="210" width="34" height="17" rx="3" fill="rgba(43,77,15,0.15)" />
-            <rect x="555" y="280" width="38" height="18" rx="3" fill="rgba(43,77,15,0.15)" />
-            <rect x="390" y="300" width="40" height="18" rx="3" fill="rgba(43,77,15,0.14)" />
-          </g>
-
-          <g opacity="0.18">
-            <circle cx="610" cy="255" r="18" fill="rgba(74,122,107,0.18)" />
-            <circle cx="630" cy="270" r="12" fill="rgba(74,122,107,0.14)" />
-          </g>
-
-          <text x="340" y="205" className="kk-map-mini-label">
-            Permukiman
-          </text>
-          <text x="585" y="245" className="kk-map-mini-label">
-            Area Hijau
-          </text>
-          <text x="455" y="120" className="kk-map-mini-label">
-            Koridor Utama
-          </text>
-
-          {projectedLabelPoint && (
-            <>
-              <circle
-                cx={projectedLabelPoint[0]}
-                cy={projectedLabelPoint[1]}
-                r="6"
-                fill="#2B4D0F"
-              />
-              <text
-                x={projectedLabelPoint[0] + 10}
-                y={projectedLabelPoint[1] - 10}
-                className="kk-map-label"
-              >
-                Kakaskasen II
-              </text>
-            </>
-          )}
-
-          {visiblePoints.map((point) => {
-            const [x, y] = projection(point.coordinates);
-            const color = categoryColors[point.category] || "#2B4D0F";
-            const isSelected = selectedPoint?.id === point.id;
-
-            return (
-              <g
-                key={point.id}
-                className="kk-premium-pin"
-                onMouseMove={(event) => handleMarkerHover(event, point)}
-                onMouseEnter={(event) => handleMarkerHover(event, point)}
-                onMouseLeave={() => setHoveredPoint(null)}
-                onClick={() => setSelectedPoint(point)}
-                style={{ cursor: "pointer" }}
-              >
-                {isSelected && (
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r="22"
-                    fill={color}
-                    opacity="0.18"
-                  />
-                )}
-
-                <circle
-                  cx={x}
-                  cy={y}
-                  r="12"
-                  fill={color}
-                  stroke="#ffffff"
-                  strokeWidth="4"
-                />
-                <circle
-                  cx={x}
-                  cy={y}
-                  r="4"
-                  fill="#ffffff"
-                />
-
-                <rect
-                  x={x - 30}
-                  y={y + 16}
-                  width="60"
-                  height="18"
-                  rx="4"
-                  fill="rgba(255,255,255,0.95)"
-                  stroke="rgba(0,0,0,0.06)"
-                />
-                <text
-                  x={x}
-                  y={y + 28}
-                  textAnchor="middle"
-                  className="kk-pin-label"
-                >
-                  {point.name}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
-
-        {hoveredPoint && (
-          <div
-            className="kk-map-hover-card"
-            style={{
-              left: tooltipPos.x + 16,
-              top: tooltipPos.y - 20,
-            }}
-          >
-            <div className="kk-map-hover-title">{hoveredPoint.name}</div>
-            <div
-              className="kk-map-hover-badge"
-              style={{
-                background: `${categoryColors[hoveredPoint.category] || "#3046b8"}22`,
-                color: categoryColors[hoveredPoint.category] || "#3046b8",
+          
+          {visiblePoints.map((point) => (
+            <Marker 
+              key={point.id} 
+              position={[point.coordinates[1], point.coordinates[0]]}
+              icon={createIcon(categoryColors[point.category] || "#2B4D0F")}
+              eventHandlers={{
+                click: () => setSelectedPoint(point),
               }}
             >
-              {hoveredPoint.category}
-            </div>
-            <div className="kk-map-hover-text">{hoveredPoint.title}</div>
-          </div>
-        )}
+              <Tooltip direction="top" offset={[0, -10]} opacity={1}>
+                <strong>{point.name}</strong>
+              </Tooltip>
+            </Marker>
+          ))}
+        </MapContainer>
       </div>
     </div>
   );

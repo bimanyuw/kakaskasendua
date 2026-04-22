@@ -9,21 +9,16 @@ export const kakaskasenGeojson = {
   },
   metadata: {
     title: "Kakaskasen Dua / Kakaskasen II Story Map Geometry",
-    source: "OpenStreetMap export area (bbox) + illustrative internal features",
-    note: "Polygon utama masih berupa area export OSM, bukan batas administratif resmi desa.",
-    status: "prototype",
+    source: "Custom Coordinates",
+    note: "Polygon diperbarui dengan titik detail batas wilayah yang baru.",
+    status: "updated",
   },
   features: [
     {
       type: "Feature",
       properties: {
-        id: "kakaskasen-bbox",
-        name: "Area Export OSM Kakaskasen Dua",
-        alt_name: "Kakaskasen II",
-        feature_type: "area_extent",
-        geometry_status: "approximate",
-        description:
-          "Ini adalah area hasil export OpenStreetMap, bukan batas administratif resmi desa.",
+        id: "kakaskasen-polygon",
+        name: "Batas Area Kakaskasen Dua",
         style: {
           fill: "#C8DAB0",
           fillOpacity: 0.22,
@@ -33,253 +28,30 @@ export const kakaskasenGeojson = {
       },
       geometry: {
         type: "Polygon",
-        coordinates: [[
-          [124.8228, 1.34504],
-          [124.8446, 1.34504],
-          [124.8446, 1.35744],
-          [124.8228, 1.35744],
-          [124.8228, 1.34504],
-        ]],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "kakaskasen-center",
-        name: "Kakaskasen Dua",
-        alt_name: "Kakaskasen II",
-        feature_type: "label_point",
-        geometry_status: "approximate",
-        label: true,
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [124.8325761, 1.3509759],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "north-edge",
-        name: "Batas Utara Area",
-        feature_type: "reference_edge",
-      },
-      geometry: {
-        type: "LineString",
         coordinates: [
-          [124.8228, 1.35744],
-          [124.8446, 1.35744],
+          [
+            [124.862749, 1.353322], // Titik awal (Timur)
+            [124.862894, 1.353096],
+            [124.849941, 1.351499],
+            [124.841161, 1.347953],
+            [124.837389, 1.346960],
+            [124.836140, 1.346404],
+            [124.835102, 1.346268],
+            [124.836099, 1.346376],
+            [124.835024, 1.346242],
+            [124.827992, 1.346280], // Area Selatan-Tengah
+            [124.799195, 1.358041], // Area Barat (Lokon)
+            [124.801082, 1.358414],
+            [124.802888, 1.359212],
+            [124.805308, 1.360891], // Barat Laut
+            [124.819674, 1.353173],
+            [124.829117, 1.351909],
+            [124.834075, 1.351973],
+            [124.834318, 1.351934],
+            [124.862749, 1.353322]  // Titik akhir (Menutup ke titik awal)
+          ]
         ],
       },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "south-edge",
-        name: "Batas Selatan Area",
-        feature_type: "reference_edge",
-      },
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [124.8228, 1.34504],
-          [124.8446, 1.34504],
-        ],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "west-edge",
-        name: "Batas Barat Area",
-        feature_type: "reference_edge",
-      },
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [124.8228, 1.34504],
-          [124.8228, 1.35744],
-        ],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "east-edge",
-        name: "Batas Timur Area",
-        feature_type: "reference_edge",
-      },
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [124.8446, 1.34504],
-          [124.8446, 1.35744],
-        ],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "northwest-corner",
-        name: "Sudut Barat Laut",
-        feature_type: "reference_corner",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [124.8228, 1.35744],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "northeast-corner",
-        name: "Sudut Timur Laut",
-        feature_type: "reference_corner",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [124.8446, 1.35744],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "southwest-corner",
-        name: "Sudut Barat Daya",
-        feature_type: "reference_corner",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [124.8228, 1.34504],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "southeast-corner",
-        name: "Sudut Timur Daya",
-        feature_type: "reference_corner",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [124.8446, 1.34504],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "story-axis",
-        name: "Koridor Cerita Utama",
-        feature_type: "story_axis",
-        geometry_status: "illustrative",
-        description:
-          "Garis ilustratif untuk membantu alur visual journey map pada versi prototipe.",
-        style: {
-          stroke: "#7A6148",
-          strokeWidth: 2,
-          dashArray: "6 4",
-        },
-      },
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [124.8275, 1.3545],
-          [124.8328, 1.3510],
-          [124.8385, 1.3496],
-          [124.8415, 1.3478],
-        ],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "subzone-lokon",
-        name: "Zona Lokon",
-        feature_type: "subzone",
-        category: "alam",
-        geometry_status: "illustrative",
-        style: {
-          fill: "#3D6B17",
-          fillOpacity: 0.08,
-          stroke: "#3D6B17",
-          strokeWidth: 1,
-        },
-      },
-      geometry: {
-        type: "Polygon",
-        coordinates: [[
-          [124.8242, 1.3528],
-          [124.8294, 1.3528],
-          [124.8294, 1.3565],
-          [124.8242, 1.3565],
-          [124.8242, 1.3528],
-        ]],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "subzone-village-core",
-        name: "Area Inti Kakaskasen II",
-        feature_type: "subzone",
-        category: "permukiman",
-        geometry_status: "illustrative",
-        style: {
-          fill: "#C8DAB0",
-          fillOpacity: 0.12,
-          stroke: "#2B4D0F",
-          strokeWidth: 1,
-        },
-      },
-      geometry: {
-        type: "Polygon",
-        coordinates: [[
-          [124.8295, 1.3488],
-          [124.8392, 1.3488],
-          [124.8392, 1.3532],
-          [124.8295, 1.3532],
-          [124.8295, 1.3488],
-        ]],
-      },
-    },
-
-    {
-      type: "Feature",
-      properties: {
-        id: "subzone-mahawu",
-        name: "Zona Mahawu",
-        feature_type: "subzone",
-        category: "alam",
-        geometry_status: "illustrative",
-        style: {
-          fill: "#3D6B17",
-          fillOpacity: 0.06,
-          stroke: "#3D6B17",
-          strokeWidth: 1,
-        },
-      },
-      geometry: {
-        type: "Polygon",
-        coordinates: [[
-          [124.8385, 1.3505],
-          [124.8435, 1.3505],
-          [124.8435, 1.3555],
-          [124.8385, 1.3555],
-          [124.8385, 1.3505],
-        ]],
-      },
-    },
+    }
   ],
 };
