@@ -12,23 +12,17 @@ export default function JourneySection() {
 
           <FadeIn>
             <h2 className="kk-section-title">
-              CERDAS
+              Journey Map
               <br />
-              <em>Cerita Desa Kakaskasen Dua</em>
+              <em>Kakaskasen II</em>
             </h2>
           </FadeIn>
 
           <FadeIn>
             <p className="kk-section-body kk-journey-intro">
-              Setiap sudut Desa Kakaskasen Dua menyimpan cerita. Mulai dari
-              objek wisata, fasilitas yang tersedia, hingga aktivitas UMKM bunga
-              yang menjadi identitas desa. Sebelum berkunjung, telusuri Desa
-              Kakaskasen Dua melalui peta interaktif yang disusun bersama
-              masyarakat lokal!
-              <br />
-              <br />
-              Klik titik pada peta dan rasakan bagaimana Desa Kakaskasen Dua
-              diceritakan dari sudut pandang masyarakat.
+              Klik pada setiap titik peta untuk membuka kisah, foto, dan
+              informasi lokasi. Filter berdasarkan kategori untuk menemukan
+              pengalaman yang kamu cari.
             </p>
           </FadeIn>
         </div>

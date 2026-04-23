@@ -11,9 +11,9 @@ export default function HighlightsSection() {
 
         <FadeIn>
           <h2 className="kk-section-title">
-            Empat pintu masuk
+            Apa saja yang bisa
             <br />
-            menuju <em>Kakaskasen II</em>
+            kamu temukan di <em>Kakaskasen II</em>?
           </h2>
         </FadeIn>
 

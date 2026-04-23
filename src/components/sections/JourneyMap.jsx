@@ -8,17 +8,12 @@ const MAP_CENTER = [1.3505, 124.831];
 const MAP_ZOOM = 14;
 
 const categoryConfig = {
-  alam:    { color: "#3D6B17", bg: "#EEF5E6", border: "#C8DAB0", label: "Alam & Trekking",  emoji: "🌿" },
-  budaya:  { color: "#7A6148", bg: "#F2EBE2", border: "#DDD0BC", label: "Budaya & Tradisi",  emoji: "🏛" },
-  kuliner: { color: "#9A7B3C", bg: "#F5EDDB", border: "#E3D4B2", label: "Kuliner Lokal",     emoji: "🍽" },
-  umkm:    { color: "#C0480A", bg: "#FAECE4", border: "#ECC9B4", label: "UMKM & Kerajinan",  emoji: "🧶" },
-  edukasi: { color: "#4A7A6B", bg: "#E6F0EC", border: "#B8D4C8", label: "Edukasi & Bunga",   emoji: "🌸" },
+  wisata:     { color: "#3D6B17", bg: "#EEF5E6", border: "#C8DAB0", label: "Destinasi Wisata",  emoji: "🌿" },
+  umkm_bunga: { color: "#C0480A", bg: "#FAECE4", border: "#ECC9B4", label: "UMKM Bunga",        emoji: "🌸" },
+  fasilitas:  { color: "#4A7A6B", bg: "#E6F0EC", border: "#B8D4C8", label: "Fasilitas Umum",    emoji: "🏛" },
 };
 
-const allFilters = [
-  { cat: "all", label: "Semua Lokasi", color: "#2B4D0F", bg: "#EEF5E6", border: "#C8DAB0", emoji: "🗺" },
-  ...Object.entries(categoryConfig).map(([cat, cfg]) => ({ cat, ...cfg })),
-];
+const allCategories = Object.keys(categoryConfig);
 
 function getCounts() {
   const c = { all: journeyPoints.length };
@@ -53,127 +48,125 @@ function FlyToFilter({ points }) {
   return null;
 }
 
+// Prevent map click-through on the filter popup
+function FilterPopup({ activeCategories, onToggle, onToggleAll, counts, open, onClose, buttonRef }) {
+  const popupRef = useRef(null);
+  const allSelected = activeCategories.length === allCategories.length;
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e) {
+      if (
+        popupRef.current && !popupRef.current.contains(e.target) &&
+        buttonRef.current && !buttonRef.current.contains(e.target)
+      ) {
+        onClose();
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open, onClose, buttonRef]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      ref={popupRef}
+      className="jm-filter-popup"
+      onClick={e => e.stopPropagation()}
+      onMouseDown={e => e.stopPropagation()}
+    >
+      <div className="jm-fp-header">
+        <span className="jm-fp-title">Filter Kategori</span>
+        <button className="jm-fp-close" onClick={onClose}>✕</button>
+      </div>
+
+      {/* Semua Lokasi toggle */}
+      <button
+        className={"jm-fp-row jm-fp-row-all" + (allSelected ? " jm-fp-row-active-all" : "")}
+        onClick={onToggleAll}
+      >
+        <span className="jm-fp-check">{allSelected ? "✓" : ""}</span>
+        <span className="jm-fp-dot" style={{ background: "#2B4D0F" }}></span>
+        <span className="jm-fp-name">Semua Lokasi</span>
+        <span className="jm-fp-count">{counts.all}</span>
+      </button>
+
+      <div className="jm-fp-divider"></div>
+
+      {allCategories.map(cat => {
+        const cfg = categoryConfig[cat];
+        const isOn = activeCategories.includes(cat);
+        return (
+          <button
+            key={cat}
+            className={"jm-fp-row" + (isOn ? " jm-fp-row-active" : "")}
+            style={isOn ? { "--fclr": cfg.color, "--fbg": cfg.bg, "--fborder": cfg.border } : {}}
+            onClick={() => onToggle(cat)}
+          >
+            <span className="jm-fp-check" style={isOn ? { color: cfg.color } : {}}>{isOn ? "✓" : ""}</span>
+            <span className="jm-fp-dot" style={{ background: cfg.color }}></span>
+            <span className="jm-fp-name">{cfg.label}</span>
+            <span
+              className="jm-fp-count"
+              style={isOn ? { background: cfg.color, color: "#fff" } : {}}
+            >
+              {counts[cat] ?? 0}
+            </span>
+          </button>
+        );
+      })}
+
+      {/* Legend inside popup */}
+      <div className="jm-fp-divider"></div>
+      <div className="jm-fp-legend-title">Legenda</div>
+      {allCategories.map(cat => {
+        const cfg = categoryConfig[cat];
+        return (
+          <div key={cat} className="jm-fp-legend-row">
+            <span className="jm-fp-legend-dot" style={{ background: cfg.color }}></span>
+            <span className="jm-fp-legend-lbl">{cfg.emoji} {cfg.label}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function JourneyMap() {
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [activeCategories, setActiveCategories] = useState(allCategories);
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const filterBtnRef = useRef(null);
   const counts = getCounts();
 
   useEffect(() => { setMounted(true); }, []);
 
-  const visiblePoints = activeFilter === "all"
-    ? journeyPoints
-    : journeyPoints.filter(p => p.category === activeFilter);
+  const visiblePoints = journeyPoints.filter(p => activeCategories.includes(p.category));
 
   const selCfg = selectedPoint ? categoryConfig[selectedPoint.category] : null;
-  const activeFilterCfg = allFilters.find(f => f.cat === activeFilter);
+
+  function toggleCategory(cat) {
+    setActiveCategories(prev =>
+      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+    );
+    setSelectedPoint(null);
+  }
+
+  function toggleAll() {
+    if (activeCategories.length === allCategories.length) {
+      setActiveCategories([]);
+    } else {
+      setActiveCategories(allCategories);
+    }
+    setSelectedPoint(null);
+  }
 
   return (
-    <div className={"jm-root" + (mounted ? " jm-mounted" : "")}>
+    <div className={"jm-root jm-root-fullmap" + (mounted ? " jm-mounted" : "")}>
 
-      {/* ─── SIDEBAR ─── */}
-      <aside className="jm-sidebar">
-        <div className="jm-sidebar-top">
-          <div className="jm-sidebar-pill">
-            <span className="jm-sidebar-pill-dot"></span>
-            Peta Interaktif
-          </div>
-          <h3 className="jm-sidebar-heading">Jelajahi<br /><em>Kakaskasen II</em></h3>
-          <p className="jm-sidebar-sub">{counts.all} destinasi di kawasan ini</p>
-        </div>
-
-        <div className="jm-filter-section">
-          <div className="jm-filter-label">Filter Kategori</div>
-          <div className="jm-filter-list">
-            {allFilters.map(f => {
-              const isActive = activeFilter === f.cat;
-              return (
-                <button
-                  key={f.cat}
-                  className={"jm-filter-btn" + (isActive ? " jm-filter-active" : "")}
-                  style={isActive ? { "--fclr": f.color, "--fbg": f.bg, "--fborder": f.border } : {}}
-                  onClick={() => { setActiveFilter(f.cat); if (isActive) return; setSelectedPoint(null); }}
-                >
-                  <span className="jm-filter-dot" style={{ background: f.color }}></span>
-                  <span className="jm-filter-name">{f.label}</span>
-                  <span className="jm-filter-count"
-                    style={isActive ? { background: f.color, color: "#fff" } : {}}>
-                    {counts[f.cat] ?? 0}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="jm-sep"></div>
-
-        <div className="jm-detail">
-          {selectedPoint && selCfg ? (
-            <div className="jm-detail-card jm-detail-has-data">
-              <div className="jm-detail-img-wrap">
-                <img
-                  className="jm-detail-img"
-                  src={selectedPoint.image}
-                  alt={selectedPoint.title}
-                  onError={e => {
-                    e.currentTarget.style.display = "none";
-                    e.currentTarget.parentElement.classList.add("jm-img-error");
-                  }}
-                />
-                <div className="jm-detail-img-shade"></div>
-                <div className="jm-detail-cat-tag"
-                  style={{ background: selCfg.bg, color: selCfg.color, border: "1px solid " + selCfg.border }}>
-                  {selCfg.emoji} {selCfg.label}
-                </div>
-              </div>
-              <div className="jm-detail-body">
-                <div className="jm-detail-title">{selectedPoint.title}</div>
-                <div className="jm-detail-text">{selectedPoint.text}</div>
-                <button className="jm-detail-close" onClick={() => setSelectedPoint(null)}>
-                  ✕ Tutup
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="jm-detail-card jm-detail-empty-state">
-              <div className="jm-empty-icon">
-                <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                  <circle cx="22" cy="22" r="21" stroke="#C8DAB0" strokeWidth="1.5"/>
-                  <circle cx="22" cy="20" r="7.5" stroke="#3D6B17" strokeWidth="1.5"/>
-                  <path d="M22 27.5 C18 31.5 15 35 22 40 C29 35 26 31.5 22 27.5Z"
-                    stroke="#3D6B17" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
-                  <circle cx="22" cy="20" r="2.5" fill="#3D6B17"/>
-                </svg>
-              </div>
-              <div className="jm-empty-title">Pilih Destinasi</div>
-              <div className="jm-empty-text">
-                Klik titik pada peta untuk melihat informasi lengkap tentang lokasi.
-              </div>
-              {activeFilter !== "all" && activeFilterCfg && (
-                <div className="jm-empty-hint"
-                  style={{ background: activeFilterCfg.bg, color: activeFilterCfg.color, border: "1px solid " + activeFilterCfg.border }}>
-                  {activeFilterCfg.emoji} {activeFilterCfg.label}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className="jm-legend">
-          <div className="jm-legend-title">Legenda</div>
-          <div className="jm-legend-grid">
-            {Object.entries(categoryConfig).map(([cat, cfg]) => (
-              <div key={cat} className="jm-legend-row">
-                <span className="jm-legend-dot" style={{ background: cfg.color }}></span>
-                <span className="jm-legend-lbl">{cfg.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </aside>
-
-      {/* ─── MAP ─── */}
+      {/* ─── MAP FULL WIDTH ─── */}
       <div className="jm-map-area">
         <div className="jm-map-canvas jm-leaflet-canvas">
           {mounted && (
@@ -185,7 +178,6 @@ export default function JourneyMap() {
               scrollWheelZoom={true}
               className="jm-leaflet-map"
             >
-              {/* Terrain map tiles — CartoDB Voyager shows roads + natural features */}
               <TileLayer
                 url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -193,16 +185,9 @@ export default function JourneyMap() {
                 maxZoom={20}
               />
 
-              {/* Village boundary */}
-              <GeoJSON
-                data={kakaskasenGeojson}
-                style={boundaryStyle}
-              />
-
-              {/* Fly to filtered area */}
+              <GeoJSON data={kakaskasenGeojson} style={boundaryStyle} />
               <FlyToFilter points={visiblePoints} />
 
-              {/* Location pins */}
               {visiblePoints.map(point => {
                 const cfg = categoryConfig[point.category] || { color: "#2B4D0F" };
                 const isSelected = selectedPoint?.id === point.id;
@@ -246,13 +231,70 @@ export default function JourneyMap() {
             </MapContainer>
           )}
 
-          {/* Map label badge */}
+          {/* Map badge top-left */}
           <div className="jm-map-badge">
             <span className="jm-map-badge-dot"></span>
-            Interactive Village Map
+            Peta Interaktif Desa
           </div>
 
-          {/* Counter */}
+          {/* ── FILTER BUTTON inside map ── */}
+          <button
+            ref={filterBtnRef}
+            className={"jm-filter-toggle-btn" + (filterOpen ? " jm-filter-toggle-open" : "")}
+            onClick={e => { e.stopPropagation(); setFilterOpen(v => !v); }}
+            title="Filter Kategori"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+            </svg>
+            <span>Filter Kategori</span>
+            {activeCategories.length < allCategories.length && (
+              <span className="jm-filter-toggle-badge">{activeCategories.length}</span>
+            )}
+          </button>
+
+          {/* ── FILTER POPUP inside map ── */}
+          <FilterPopup
+            activeCategories={activeCategories}
+            onToggle={toggleCategory}
+            onToggleAll={toggleAll}
+            counts={counts}
+            open={filterOpen}
+            onClose={() => setFilterOpen(false)}
+            buttonRef={filterBtnRef}
+          />
+
+          {/* ── DETAIL CARD inside map (bottom-left, when point selected) ── */}
+          {selectedPoint && selCfg && (
+            <div className="jm-inmap-detail">
+              <div className="jm-inmap-detail-cat"
+                style={{ background: selCfg.bg, color: selCfg.color, border: "1px solid " + selCfg.border }}>
+                {selCfg.emoji} {selCfg.label}
+              </div>
+              <div className="jm-inmap-detail-title">{selectedPoint.title}</div>
+              <div className="jm-inmap-detail-text">{selectedPoint.text}</div>
+              <button className="jm-inmap-detail-close" onClick={() => setSelectedPoint(null)}>
+                ✕ Tutup
+              </button>
+            </div>
+          )}
+
+          {/* Legend bottom-right (permanent) — hidden when detail card is open */}
+          <div className={"jm-inmap-legend" + (selectedPoint ? " jm-inmap-legend-hidden" : "")}>
+            <div className="jm-inmap-legend-title">Legenda</div>
+            {Object.entries(categoryConfig).map(([cat, cfg]) => (
+              <div key={cat} className="jm-inmap-legend-row">
+                <span className="jm-inmap-legend-dot" style={{ background: cfg.color }}></span>
+                <span className="jm-inmap-legend-lbl">{cfg.label}</span>
+              </div>
+            ))}
+            <div className="jm-inmap-legend-row">
+              <span className="jm-inmap-legend-dot jm-inmap-legend-dot-border"></span>
+              <span className="jm-inmap-legend-lbl">Batas Desa</span>
+            </div>
+          </div>
+
+          {/* Counter bottom-right */}
           <div className="jm-map-counter">
             <span className="jm-map-counter-n">{visiblePoints.length}</span>
             <span className="jm-map-counter-u">lokasi</span>
