@@ -4,7 +4,7 @@ export const umkmData = [
     alt: "Bunga Potong Lokal",
     cat: "Tanaman & Bunga",
     title: "Bunga Potong Khas Tomohon",
-    desc: "Aneka bunga potong segar — krisan, gladiol, bunga lili — hasil kebun warga Kakaskasen II.",
+    desc: "Aneka bunga potong segar — krisan, gladiol, bunga lili — hasil kebun warga Kakaskasen Dua.",
     price: "Harga bervariasi",
     waLabel: "Hubungi Penjual",
   },

@@ -8,7 +8,7 @@ export const kakaskasenGeojson = {
     },
   },
   metadata: {
-    title: "Kakaskasen Dua / Kakaskasen II Story Map Geometry",
+    title: "Kakaskasen Dua / Kakaskasen Dua Story Map Geometry",
     source: "Custom Coordinates",
     note: "Polygon diperbarui dengan titik detail batas wilayah yang baru.",
     status: "updated",
