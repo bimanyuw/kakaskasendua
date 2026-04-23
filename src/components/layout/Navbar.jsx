@@ -10,7 +10,7 @@ export default function Navbar({ scrolled, onToggleMenu, darkMode, onToggleDark 
           <li><a href="#tentang">Tentang</a></li>
           <li><a href="#journey">Journey Map</a></li>
           <li><a href="#wisata">Wisata</a></li>
-          <li><a href="#umkm">UMKM</a></li>
+          <li><a href="#umkm">Marketplace</a></li>
           <li><a href="#gunung">Info Gunung</a></li>
           <li><a href="#kontak">Kontak</a></li>
         </ul>

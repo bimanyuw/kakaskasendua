@@ -7,12 +7,12 @@ export default function UmkmSection() {
     <section className="kk-umkm kk-section" id="umkm">
       <div className="kk-section-inner">
         <FadeIn>
-          <p className="kk-section-label">Ekonomi Lokal</p>
+          <p className="kk-section-label">Marketplace</p>
         </FadeIn>
 
         <FadeIn>
           <h2 className="kk-section-title">
-            UMKM & <em>Produk Lokal</em>
+            Karya & <em>Produk Lokal</em>
           </h2>
         </FadeIn>
 
