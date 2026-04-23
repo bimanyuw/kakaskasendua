@@ -13,7 +13,7 @@ export default function HighlightsSection() {
           <h2 className="kk-section-title">
             Apa saja yang bisa
             <br />
-            kamu temukan di <em>Kakaskasen II</em>?
+            kamu temukan di <em>Kakaskasen Dua</em>?
           </h2>
         </FadeIn>
 

@@ -6,7 +6,7 @@ export default function CtaBanner() {
           <h2 className="kk-cta-title">
             Siap menjelajahi
             <br />
-            <em>Kakaskasen II?</em>
+            <em>Kakaskasen Dua?</em>
           </h2>
           <p
             style={{

@@ -17,7 +17,7 @@ export default function HeroSection() {
         </h1>
 
         <p className="kk-hero-sub">
-          Portal digital Desa Wisata Kakaskasen II — mengenal destinasi,
+          Portal digital Desa Wisata Kakaskasen Dua — mengenal destinasi,
           menelusuri peta cerita, dan melihat potensi lokal.
         </p>
 

@@ -28,7 +28,7 @@ export default function WisataSection() {
         <FadeIn>
           <p className="kk-section-body">
             Semua aktivitas wisata di bawah ini tersedia di Desa Wisata
-            Kakaskasen II dan terdaftar di Jadesta. Kunjungi kanal resmi
+            Kakaskasen Dua dan terdaftar di Jadesta. Kunjungi kanal resmi
             untuk informasi paket dan pemesanan.
           </p>
         </FadeIn>

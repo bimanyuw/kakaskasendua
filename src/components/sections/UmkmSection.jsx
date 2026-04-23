@@ -18,7 +18,7 @@ export default function UmkmSection() {
 
         <FadeIn>
           <p className="kk-section-body">
-            Karya dan produk unggulan dari tangan masyarakat Kakaskasen II.
+            Karya dan produk unggulan dari tangan masyarakat Kakaskasen Dua.
             Mendukung ekonomi lokal dengan membeli langsung dari pengrajin
             dan petani desa.
           </p>

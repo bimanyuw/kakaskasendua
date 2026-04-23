@@ -11,7 +11,7 @@ export default function GaleriSection() {
 
         <FadeIn>
           <h2 className="kk-section-title">
-            Galeri <em>Kakaskasen II</em>
+            Galeri <em>Kakaskasen Dua</em>
           </h2>
         </FadeIn>
 

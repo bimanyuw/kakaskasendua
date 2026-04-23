@@ -51,7 +51,7 @@ export default function GunungSection() {
 
         <FadeIn>
           <p className="kk-section-body">
-            Desa Wisata Kakaskasen II berada dekat kawasan gunung berapi aktif.
+            Desa Wisata Kakaskasen Dua berada dekat kawasan gunung berapi aktif.
             Pastikan selalu memeriksa status gunung sebelum berkunjung.
           </p>
         </FadeIn>

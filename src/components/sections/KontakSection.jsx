@@ -176,7 +176,7 @@ export default function KontakSection() {
                 }}
               >
                 <strong style={{ fontWeight: 500, color: "var(--text)" }}>
-                  Akses menuju Kakaskasen II:
+                  Akses menuju Kakaskasen Dua:
                 </strong>
                 <br />
                 Dari pusat Kota Tomohon ke arah utara, sekitar 10–15 menit
