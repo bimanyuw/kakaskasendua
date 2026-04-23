@@ -30,7 +30,7 @@ export default function AboutSection() {
           <FadeIn>
             <p className="kk-section-label">Mengenal Desa</p>
             <h2 className="kk-section-title">
-              Kakaskasen II —
+              Kakaskasen Dua —
               <br />
               di antara <em>gunung dan bunga</em>
             </h2>
@@ -38,7 +38,7 @@ export default function AboutSection() {
             <div className="kk-divider"></div>
 
             <p className="kk-section-body">
-              Desa Wisata Kakaskasen II terletak di Kelurahan Kakaskasen Dua,
+              Desa Wisata Kakaskasen Dua terletak di Kelurahan Kakaskasen Dua,
               Kecamatan Tomohon Utara, Kota Tomohon, Sulawesi Utara.
               Dikelilingi lanskap vulkanik dari Gunung Lokon dan Gunung Mahawu,
               desa ini menawarkan pengalaman wisata yang kaya akan alam, budaya,
@@ -47,7 +47,7 @@ export default function AboutSection() {
 
             <p className="kk-section-body" style={{ marginTop: "1rem" }}>
               Dari pembibitan bunga eksotis, trekking kawah, hingga seni
-              kerajinan tangan Minahasa — Kakaskasen II menjadi destinasi yang
+              kerajinan tangan Minahasa — Kakaskasen Dua menjadi destinasi yang
               menggabungkan petualangan alam dengan kehangatan budaya lokal.
             </p>
 
@@ -76,7 +76,7 @@ export default function AboutSection() {
             <div className="kk-about-img-main-wrap">
               <SafeImg
                 src={IMG_MAIN}
-                alt="Pemandangan Desa Kakaskasen II"
+                alt="Pemandangan Desa Kakaskasen Dua"
                 className="kk-about-img-main"
                 fallbackClass="kk-about-img-fallback"
               />
@@ -85,7 +85,7 @@ export default function AboutSection() {
                   <path d="M8 48 L20 28 L32 38 L44 20 L56 48 Z" fill="rgba(43,77,15,0.15)" stroke="#2B4D0F" strokeWidth="1.5" strokeLinejoin="round"/>
                   <circle cx="42" cy="18" r="8" fill="rgba(154,123,60,0.2)" stroke="#9A7B3C" strokeWidth="1.5"/>
                 </svg>
-                <span>Kakaskasen II</span>
+                <span>Kakaskasen Dua</span>
               </div>
             </div>
 
