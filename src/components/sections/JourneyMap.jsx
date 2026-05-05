@@ -44,7 +44,7 @@ function FlyToFilter({ points }) {
       [Math.max(...lats) + 0.002, Math.max(...lngs) + 0.002],
     ];
     map.flyToBounds(bounds, { padding: [40, 40], duration: 0.8 });
-  }, [points]);
+  }, [map, points]);
   return null;
 }
 
@@ -117,18 +117,6 @@ function FilterPopup({ activeCategories, onToggle, onToggleAll, counts, open, on
         );
       })}
 
-      {/* Legend inside popup */}
-      <div className="jm-fp-divider"></div>
-      <div className="jm-fp-legend-title">Legenda</div>
-      {allCategories.map(cat => {
-        const cfg = categoryConfig[cat];
-        return (
-          <div key={cat} className="jm-fp-legend-row">
-            <span className="jm-fp-legend-dot" style={{ background: cfg.color }}></span>
-            <span className="jm-fp-legend-lbl">{cfg.emoji} {cfg.label}</span>
-          </div>
-        );
-      })}
     </div>
   );
 }
@@ -136,12 +124,10 @@ function FilterPopup({ activeCategories, onToggle, onToggleAll, counts, open, on
 export default function JourneyMap() {
   const [activeCategories, setActiveCategories] = useState(allCategories);
   const [selectedPoint, setSelectedPoint] = useState(null);
-  const [mounted, setMounted] = useState(false);
+  const [mounted] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
   const filterBtnRef = useRef(null);
   const counts = getCounts();
-
-  useEffect(() => { setMounted(true); }, []);
 
   const visiblePoints = journeyPoints.filter(p => activeCategories.includes(p.category));
 
@@ -264,18 +250,27 @@ export default function JourneyMap() {
             buttonRef={filterBtnRef}
           />
 
-          {/* ── DETAIL CARD inside map (bottom-left, when point selected) ── */}
+          {/* ── DETAIL CARD overlay inside map ── */}
           {selectedPoint && selCfg && (
-            <div className="jm-inmap-detail">
-              <div className="jm-inmap-detail-cat"
-                style={{ background: selCfg.bg, color: selCfg.color, border: "1px solid " + selCfg.border }}>
-                {selCfg.emoji} {selCfg.label}
+            <div className="jm-detail-backdrop">
+              <div className="jm-inmap-detail">
+                {selectedPoint.image && (
+                  <img
+                    className="jm-inmap-detail-img"
+                    src={selectedPoint.image}
+                    alt={selectedPoint.title}
+                  />
+                )}
+                <div className="jm-inmap-detail-cat"
+                  style={{ background: selCfg.bg, color: selCfg.color, border: "1px solid " + selCfg.border }}>
+                  {selCfg.emoji} {selCfg.label}
+                </div>
+                <div className="jm-inmap-detail-title">{selectedPoint.title}</div>
+                <div className="jm-inmap-detail-text">{selectedPoint.text}</div>
+                <button className="jm-inmap-detail-close" onClick={() => setSelectedPoint(null)}>
+                  ✕ Tutup
+                </button>
               </div>
-              <div className="jm-inmap-detail-title">{selectedPoint.title}</div>
-              <div className="jm-inmap-detail-text">{selectedPoint.text}</div>
-              <button className="jm-inmap-detail-close" onClick={() => setSelectedPoint(null)}>
-                ✕ Tutup
-              </button>
             </div>
           )}
 
