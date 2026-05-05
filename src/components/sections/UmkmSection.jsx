@@ -1,8 +1,15 @@
 import FadeIn from "../ui/FadeIn";
 import WhatsAppIcon from "../icons/WhatsAppIcon";
 import { umkmData } from "../../data/umkm";
+import { useAdminCollection } from "../../hooks/useAdminCollection";
 
 export default function UmkmSection() {
+  const products = useAdminCollection("marketplace", umkmData);
+
+  function getWhatsappHref(phone) {
+    return phone ? `https://wa.me/${phone}` : "#kontak";
+  }
+
   return (
     <section className="kk-umkm kk-section" id="umkm">
       <div className="kk-section-inner">
@@ -25,7 +32,7 @@ export default function UmkmSection() {
         </FadeIn>
 
         <div className="kk-umkm-grid">
-          {umkmData.map((item, index) => (
+          {products.map((item, index) => (
             <FadeIn key={index}>
               <div className="kk-u-card">
                 <img src={item.img} alt={item.alt} />
@@ -34,7 +41,12 @@ export default function UmkmSection() {
                   <div className="kk-u-card-title">{item.title}</div>
                   <p className="kk-u-card-desc">{item.desc}</p>
                   <div className="kk-u-card-price">{item.price}</div>
-                  <a href="#kontak" className="kk-u-card-wa">
+                  <a
+                    href={getWhatsappHref(item.phone)}
+                    target={item.phone ? "_blank" : undefined}
+                    rel={item.phone ? "noreferrer" : undefined}
+                    className="kk-u-card-wa"
+                  >
                     <WhatsAppIcon />
                     {item.waLabel}
                   </a>

@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from 
 import "leaflet/dist/leaflet.css";
 import { kakaskasenGeojson } from "../../data/kakaskasenGeojson";
 import { journeyPoints } from "../../data/journeyPoints";
+import { useAdminCollection } from "../../hooks/useAdminCollection";
 
 const MAP_CENTER = [1.3505, 124.831];
 const MAP_ZOOM = 14;
@@ -15,9 +16,9 @@ const categoryConfig = {
 
 const allCategories = Object.keys(categoryConfig);
 
-function getCounts() {
-  const c = { all: journeyPoints.length };
-  journeyPoints.forEach(p => { c[p.category] = (c[p.category] || 0) + 1; });
+function getCounts(points) {
+  const c = { all: points.length };
+  points.forEach(p => { c[p.category] = (c[p.category] || 0) + 1; });
   return c;
 }
 
@@ -29,11 +30,11 @@ const boundaryStyle = {
   dashArray: null,
 };
 
-function FlyToFilter({ points }) {
+function FlyToFilter({ points, totalPoints }) {
   const map = useMap();
   useEffect(() => {
     if (points.length === 0) return;
-    if (points.length === journeyPoints.length) {
+    if (points.length === totalPoints) {
       map.flyTo(MAP_CENTER, MAP_ZOOM, { duration: 0.8 });
       return;
     }
@@ -44,7 +45,7 @@ function FlyToFilter({ points }) {
       [Math.max(...lats) + 0.002, Math.max(...lngs) + 0.002],
     ];
     map.flyToBounds(bounds, { padding: [40, 40], duration: 0.8 });
-  }, [map, points]);
+  }, [map, points, totalPoints]);
   return null;
 }
 
@@ -122,14 +123,15 @@ function FilterPopup({ activeCategories, onToggle, onToggleAll, counts, open, on
 }
 
 export default function JourneyMap() {
+  const storyPoints = useAdminCollection("storyMap", journeyPoints);
   const [activeCategories, setActiveCategories] = useState(allCategories);
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [mounted] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
   const filterBtnRef = useRef(null);
-  const counts = getCounts();
+  const counts = getCounts(storyPoints);
 
-  const visiblePoints = journeyPoints.filter(p => activeCategories.includes(p.category));
+  const visiblePoints = storyPoints.filter(p => activeCategories.includes(p.category));
 
   const selCfg = selectedPoint ? categoryConfig[selectedPoint.category] : null;
 
@@ -172,7 +174,7 @@ export default function JourneyMap() {
               />
 
               <GeoJSON data={kakaskasenGeojson} style={boundaryStyle} />
-              <FlyToFilter points={visiblePoints} />
+              <FlyToFilter points={visiblePoints} totalPoints={storyPoints.length} />
 
               {visiblePoints.map(point => {
                 const cfg = categoryConfig[point.category] || { color: "#2B4D0F" };
@@ -220,7 +222,7 @@ export default function JourneyMap() {
           {/* Map badge top-left */}
           <div className="jm-map-badge">
             <span className="jm-map-badge-dot"></span>
-            Peta Interaktif Desa
+            Story Map Desa
           </div>
 
           {/* ── FILTER BUTTON inside map ── */}

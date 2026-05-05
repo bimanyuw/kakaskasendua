@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AdminPanel from "./components/admin/AdminPanel";
 import Navbar from "./components/layout/Navbar";
 import MobileMenu from "./components/layout/MobileMenu";
 import HeroSection from "./components/sections/HeroSection";
@@ -17,6 +18,7 @@ import "./styles/global.css";
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isAdminRoute, setIsAdminRoute] = useState(() => window.location.hash === "#admin");
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem("kk-theme");
     if (saved) return saved === "dark";
@@ -30,12 +32,22 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    const handleHash = () => setIsAdminRoute(window.location.hash === "#admin");
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
+  useEffect(() => {
     document.documentElement.setAttribute("data-theme", darkMode ? "dark" : "light");
     localStorage.setItem("kk-theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
   const closeMenu = () => setMenuOpen(false);
   const toggleDark = () => setDarkMode((prev) => !prev);
+
+  if (isAdminRoute) {
+    return <AdminPanel />;
+  }
 
   return (
     <>

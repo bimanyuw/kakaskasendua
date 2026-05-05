@@ -1,7 +1,10 @@
 import FadeIn from "../ui/FadeIn";
 import { galleryData } from "../../data/gallery";
+import { useAdminCollection } from "../../hooks/useAdminCollection";
 
 export default function GaleriSection() {
+  const galleryItems = useAdminCollection("gallery", galleryData);
+
   return (
     <section className="kk-galeri kk-section" id="galeri">
       <div className="kk-section-inner">
@@ -17,7 +20,7 @@ export default function GaleriSection() {
 
         <FadeIn>
           <div className="kk-galeri-grid">
-            {galleryData.map((item, index) => (
+            {galleryItems.map((item, index) => (
               <div key={index} className="kk-g-item">
                 <img src={item.src} alt={item.alt} />
                 <div className="kk-g-overlay">

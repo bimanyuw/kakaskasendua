@@ -2,7 +2,7 @@ export default function MobileMenu({ menuOpen, onClose }) {
   return (
     <div className={`kk-mobile-menu${menuOpen ? " open" : ""}`}>
       <a href="#tentang" onClick={onClose}>Tentang Desa</a>
-      <a href="#journey" onClick={onClose}>Journey Map</a>
+      <a href="#journey" onClick={onClose}>Story Map</a>
       <a href="#wisata" onClick={onClose}>Wisata & Aktivitas</a>
       <a href="#umkm" onClick={onClose}>UMKM & Produk Lokal</a>
       <a href="#gunung" onClick={onClose}>Info Gunung</a>

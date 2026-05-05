@@ -12,7 +12,7 @@ export default function JourneySection() {
 
           <FadeIn>
             <h2 className="kk-section-title">
-              CERDAS
+              Story Map
               <br />
               <em>Cerita Desa Kakaskasen Dua</em>
             </h2>

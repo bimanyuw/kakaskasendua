@@ -1,16 +1,18 @@
 import { useState } from "react";
 import FadeIn from "../ui/FadeIn";
 import { wisataData } from "../../data/wisata";
+import { useAdminCollection } from "../../hooks/useAdminCollection";
 
 export default function WisataSection() {
   const [activeFilter, setActiveFilter] = useState("all");
+  const wisataItems = useAdminCollection("wisata", wisataData);
 
   const filterButtons = ["Semua", "Alam", "Budaya", "Edukasi", "Kuliner"];
 
   const filteredCards =
     activeFilter === "all"
-      ? wisataData
-      : wisataData.filter((item) => item.cat === activeFilter);
+      ? wisataItems
+      : wisataItems.filter((item) => item.cat === activeFilter);
 
   return (
     <section className="kk-wisata kk-section" id="wisata">

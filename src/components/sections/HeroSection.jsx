@@ -23,7 +23,7 @@ export default function HeroSection() {
 
         <div className="kk-hero-btns">
           <a href="#journey" className="kk-btn-primary">
-            Jelajahi Journey Map
+            Jelajahi Story Map
           </a>
           <a
             href="https://jadesta.kemenparekraf.go.id"

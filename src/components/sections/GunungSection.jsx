@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import FadeIn from "../ui/FadeIn";
 
 const statusLevels = [
@@ -35,7 +36,159 @@ const safetyTips = [
   "Selalu berangkat dalam kelompok dengan pemandu lokal bersertifikat",
 ];
 
+const volcanoFallback = [
+  {
+    name: "Gunung Lokon",
+    query: "Lokon",
+    height: "1.580 mdpl",
+    location: "Tomohon, Sulawesi Utara",
+    level: "II",
+    status: "Waspada",
+    className: "kk-status-waspada",
+    color: "#9A6B00",
+  },
+  {
+    name: "Gunung Mahawu",
+    query: "Mahawu",
+    height: "1.324 mdpl",
+    location: "Tomohon, Sulawesi Utara",
+    level: "I",
+    status: "Normal",
+    className: "kk-status-normal",
+    color: "#3B6D11",
+  },
+];
+
+const levelMeta = [
+  { level: "IV", status: "Awas", className: "kk-status-awas", color: "#A32D2D" },
+  { level: "III", status: "Siaga", className: "kk-status-siaga", color: "#B5520A" },
+  { level: "II", status: "Waspada", className: "kk-status-waspada", color: "#9A6B00" },
+  { level: "I", status: "Normal", className: "kk-status-normal", color: "#3B6D11" },
+];
+
+function parseMagmaStatus(html, volcanoName) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const text = doc.body.innerText.replace(/\s+/g, " ");
+
+  for (let index = 0; index < levelMeta.length; index += 1) {
+    const current = levelMeta[index];
+    const start = text.indexOf(`Level ${current.level}`);
+    if (start === -1) continue;
+
+    const next = levelMeta[index + 1];
+    const nextStart = next ? text.indexOf(`Level ${next.level}`, start + 1) : -1;
+    const section = text.slice(start, nextStart === -1 ? undefined : nextStart);
+
+    if (section.toLowerCase().includes(volcanoName.toLowerCase())) {
+      return current;
+    }
+  }
+
+  return null;
+}
+
+function useVolcanoStatuses() {
+  const [data, setData] = useState({
+    items: volcanoFallback,
+    updatedAt: "Menggunakan data cadangan",
+    isLive: false,
+  });
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadStatus() {
+      try {
+        const response = await fetch("https://magma.esdm.go.id/", {
+          signal: controller.signal,
+        });
+        const html = await response.text();
+        const nextItems = volcanoFallback.map((item) => {
+          const live = parseMagmaStatus(html, item.query);
+          return live ? { ...item, ...live } : item;
+        });
+
+        setData({
+          items: nextItems,
+          updatedAt: new Intl.DateTimeFormat("id-ID", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          }).format(new Date()),
+          isLive: true,
+        });
+      } catch {
+        setData((prev) => ({
+          ...prev,
+          isLive: false,
+        }));
+      }
+    }
+
+    loadStatus();
+    return () => controller.abort();
+  }, []);
+
+  return data;
+}
+
+function VolcanoStatusCard({ volcano, updatedAt, isLive, showDisclaimer }) {
+  return (
+    <div className="kk-status-card" style={{ marginBottom: showDisclaimer ? "1.5rem" : 0 }}>
+      <div className="kk-status-header">
+        <div className="kk-section-label">Status Terkini</div>
+        <div className="kk-status-name">{volcano.name}</div>
+        <div className={`kk-status-badge ${volcano.className}`}>
+          <span
+            style={{
+              width: "8px",
+              height: "8px",
+              borderRadius: "50%",
+              background: volcano.color,
+              display: "inline-block",
+            }}
+          ></span>
+          Level {volcano.level} - {volcano.status}
+        </div>
+      </div>
+
+      <div className="kk-status-body">
+        <div className="kk-status-row">
+          <span>Ketinggian</span>
+          <strong>{volcano.height}</strong>
+        </div>
+        <div className="kk-status-row">
+          <span>Lokasi</span>
+          <strong>{volcano.location}</strong>
+        </div>
+        <div className="kk-status-row">
+          <span>Update terakhir</span>
+          <strong>{isLive ? updatedAt : "Lihat MAGMA PVMBG"}</strong>
+        </div>
+
+        <a
+          href="https://magma.esdm.go.id/"
+          target="_blank"
+          rel="noreferrer"
+          className="kk-status-src"
+        >
+          Lihat Sumber Resmi MAGMA
+        </a>
+
+        {showDisclaimer && (
+          <p className="kk-status-disclaimer">
+            * Website mencoba mengambil status langsung dari MAGMA PVMBG. Jika
+            browser memblokir akses lintas-domain, data cadangan ditampilkan
+            dan sumber resmi tetap tersedia melalui tautan MAGMA.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function GunungSection() {
+  const { items: volcanoStatuses, updatedAt, isLive } = useVolcanoStatuses();
+
   return (
     <section className="kk-gunung kk-section" id="gunung">
       <div className="kk-section-inner">
@@ -58,96 +211,15 @@ export default function GunungSection() {
 
         <div className="kk-gunung-grid">
           <FadeIn>
-            <div className="kk-status-card" style={{ marginBottom: "1.5rem" }}>
-              <div className="kk-status-header">
-                <div className="kk-section-label">Status Terkini</div>
-                <div className="kk-status-name">Gunung Lokon</div>
-                <div className="kk-status-badge kk-status-waspada">
-                  <span
-                    style={{
-                      width: "8px",
-                      height: "8px",
-                      borderRadius: "50%",
-                      background: "#9A6B00",
-                      display: "inline-block",
-                    }}
-                  ></span>
-                  Level II — Waspada
-                </div>
-              </div>
-
-              <div className="kk-status-body">
-                <div className="kk-status-row">
-                  <span>Ketinggian</span>
-                  <strong>1.580 mdpl</strong>
-                </div>
-                <div className="kk-status-row">
-                  <span>Lokasi</span>
-                  <strong>Tomohon, Sulawesi Utara</strong>
-                </div>
-                <div className="kk-status-row">
-                  <span>Update terakhir</span>
-                  <strong>Lihat MAGMA PVMBG</strong>
-                </div>
-
-                <a
-                  href="https://magma.esdm.go.id"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="kk-status-src"
-                >
-                  Lihat Sumber Resmi MAGMA →
-                </a>
-
-                <p className="kk-status-disclaimer">
-                  * Data status bersifat indikatif. Selalu periksa informasi
-                  terbaru di sumber resmi PVMBG sebelum berkunjung.
-                </p>
-              </div>
-            </div>
-
-            <div className="kk-status-card">
-              <div className="kk-status-header">
-                <div className="kk-section-label">Status Terkini</div>
-                <div className="kk-status-name">Gunung Mahawu</div>
-                <div className="kk-status-badge kk-status-normal">
-                  <span
-                    style={{
-                      width: "8px",
-                      height: "8px",
-                      borderRadius: "50%",
-                      background: "#3B6D11",
-                      display: "inline-block",
-                    }}
-                  ></span>
-                  Level I — Normal
-                </div>
-              </div>
-
-              <div className="kk-status-body">
-                <div className="kk-status-row">
-                  <span>Ketinggian</span>
-                  <strong>1.324 mdpl</strong>
-                </div>
-                <div className="kk-status-row">
-                  <span>Lokasi</span>
-                  <strong>Tomohon, Sulawesi Utara</strong>
-                </div>
-                <div className="kk-status-row">
-                  <span>Update terakhir</span>
-                  <strong>Lihat MAGMA PVMBG</strong>
-                </div>
-
-                <a
-                  href="https://magma.esdm.go.id"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="kk-status-src"
-                >
-                  Lihat Sumber Resmi MAGMA →
-                </a>
-              </div>
-            </div>
+            {volcanoStatuses.map((volcano, index) => (
+              <VolcanoStatusCard
+                key={volcano.name}
+                volcano={volcano}
+                updatedAt={updatedAt}
+                isLive={isLive}
+                showDisclaimer={index === 0}
+              />
+            ))}
           </FadeIn>
 
           <FadeIn>

@@ -8,7 +8,7 @@ export default function Footer() {
 
         <div className="kk-footer-links">
           <a href="#tentang">Tentang</a>
-          <a href="#journey">Journey Map</a>
+          <a href="#journey">Story Map</a>
           <a href="#wisata">Wisata</a>
           <a href="#umkm">UMKM</a>
           <a href="#gunung">Info Gunung</a>
