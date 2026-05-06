@@ -8,7 +8,7 @@ export default function Navbar({ scrolled, onToggleMenu, darkMode, onToggleDark 
 
         <ul className="kk-nav-links">
           <li><a href="#tentang">Tentang</a></li>
-          <li><a href="#journey">Story Map</a></li>
+          <li><a href="#journey">Journey Map</a></li>
           <li><a href="#wisata">Wisata</a></li>
           <li><a href="#umkm">Marketplace</a></li>
           <li><a href="#gunung">Info Gunung</a></li>
