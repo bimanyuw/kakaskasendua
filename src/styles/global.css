@@ -9900,3 +9900,448 @@ button {
 .kk-wisata-showcase-head p {
   color: rgba(240, 228, 208, 0.74) !important;
 }
+
+/* Mobile layout polish */
+@media (max-width: 768px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .kk-section,
+  .kk-about-editorial,
+  .kk-journey-clean,
+  .kk-wisata-showcase,
+  .kk-mp-section,
+  .kk-gunung,
+  .kk-galeri,
+  .kk-kontak {
+    padding: clamp(4.5rem, 13vw, 6rem) 0 !important;
+  }
+
+  .kk-section-inner,
+  .kk-about-editorial-inner,
+  .kk-journey-clean-inner,
+  .kk-mp-inner,
+  .kk-gunung .kk-section-inner,
+  .kk-galeri .kk-section-inner,
+  .kk-kontak .kk-section-inner,
+  .kk-footer-inner {
+    width: min(100%, 100vw) !important;
+    max-width: 100% !important;
+    padding-left: clamp(1rem, 5vw, 1.35rem) !important;
+    padding-right: clamp(1rem, 5vw, 1.35rem) !important;
+  }
+
+  .kk-nav-inner {
+    height: 60px !important;
+    padding: 0 1rem !important;
+    gap: 0.75rem !important;
+  }
+
+  .kk-nav-logo {
+    max-width: 145px !important;
+    font-size: 0.92rem !important;
+    line-height: 1.05 !important;
+  }
+
+  .kk-nav-links,
+  .kk-nav-cta {
+    display: none !important;
+  }
+
+  .kk-nav-burger {
+    display: flex !important;
+  }
+
+  .kk-dark-toggle {
+    width: 34px !important;
+    height: 34px !important;
+    flex: 0 0 34px !important;
+  }
+
+  .kk-mobile-menu {
+    top: 60px !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-height: calc(100svh - 60px) !important;
+    padding: 1rem 1.15rem 1.25rem !important;
+    overflow-y: auto !important;
+    background: rgba(20, 31, 15, 0.98) !important;
+    border-bottom: 1px solid rgba(240, 228, 208, 0.22) !important;
+    z-index: 99 !important;
+  }
+
+  .kk-mobile-menu a {
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    color: var(--s-light-text) !important;
+    border-bottom: 1px solid rgba(240, 228, 208, 0.1) !important;
+    font-size: 0.78rem !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .kk-hero {
+    min-height: 100svh !important;
+    padding: 6.25rem 0 4.75rem !important;
+  }
+
+  .kk-hero-content {
+    padding: 0 1.1rem !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .kk-hero-kicker {
+    font-size: clamp(0.72rem, 3.2vw, 0.82rem) !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  .kk-hero h1 {
+    font-size: clamp(3rem, 18vw, 5.4rem) !important;
+    line-height: 0.88 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .kk-hero-sub {
+    font-size: clamp(0.78rem, 3.4vw, 0.95rem) !important;
+    letter-spacing: 0.2em !important;
+  }
+
+  .kk-section-heading,
+  .kk-journey-clean .kk-journey-header.kk-section-heading,
+  .kk-wisata-showcase-head.kk-section-heading,
+  .kk-mp-header {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: clamp(1.8rem, 8vw, 2.6rem) !important;
+    text-align: left !important;
+  }
+
+  .kk-section-label,
+  .kk-about-eyebrow,
+  .kk-vol-eyebrow,
+  .kk-mp-eyebrow,
+  .kk-wisata-kicker {
+    justify-content: flex-start !important;
+    text-align: left !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.16em !important;
+    white-space: normal !important;
+  }
+
+  .kk-section-title,
+  .kk-about-headline,
+  .kk-vol-headline,
+  .kk-mp-header h2,
+  .kk-wisata-showcase h2,
+  .kk-galeri .kk-section-title,
+  .kk-kontak .kk-section-title,
+  .kk-journey-clean .kk-section-title {
+    max-width: 100% !important;
+    font-size: clamp(2.25rem, 13vw, 3.75rem) !important;
+    line-height: 0.98 !important;
+    text-align: left !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .kk-section-body,
+  .kk-about-editorial-copy p,
+  .kk-journey-intro,
+  .kk-vol-subtext,
+  .kk-mp-header p:not(.kk-mp-eyebrow),
+  .kk-wisata-showcase-head p {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.72 !important;
+    text-align: left !important;
+  }
+
+  .kk-about-editorial-grid,
+  .kk-gunung-grid,
+  .kk-kontak-grid,
+  .kk-mp-card,
+  .kk-vol-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  .kk-about-editorial-img-wrap,
+  .kk-about-editorial-img {
+    min-height: 280px !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .kk-about-editorial-copy {
+    padding: 0 !important;
+  }
+
+  .kk-about-discover {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .kk-journey-clean .jm-map-canvas,
+  .kk-journey-clean .jm-leaflet-map,
+  .kk-journey-clean .leaflet-container {
+    min-height: 560px !important;
+    border-radius: 10px !important;
+  }
+
+  .kk-journey-clean .jm-map-badge {
+    max-width: calc(100% - 5rem) !important;
+    font-size: 0.72rem !important;
+  }
+
+  .kk-journey-clean .jm-filter-toggle-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+  }
+
+  .kk-journey-clean .jm-filter-popup {
+    top: 3.75rem !important;
+    right: 0.75rem !important;
+    width: min(290px, calc(100% - 1.5rem)) !important;
+  }
+
+  .kk-journey-clean .jm-inmap-legend,
+  .kk-journey-clean .jm-map-counter {
+    transform: scale(0.88) !important;
+    transform-origin: bottom right !important;
+  }
+
+  .kk-journey-clean .jm-map-counter {
+    transform-origin: bottom left !important;
+  }
+
+  .kk-wisata-showcase {
+    overflow: hidden !important;
+  }
+
+  .kk-wisata-filter-row {
+    width: 100% !important;
+    display: flex !important;
+    gap: 0.55rem !important;
+    overflow-x: auto !important;
+    padding: 0 1rem 0.4rem !important;
+    margin: 0 -1rem 1.5rem !important;
+    scroll-snap-type: x proximity !important;
+  }
+
+  .kk-wisata-showcase .kk-wf-btn {
+    flex: 0 0 auto !important;
+    min-height: 38px !important;
+    padding: 0.55rem 0.85rem !important;
+    font-size: 0.68rem !important;
+    scroll-snap-align: start !important;
+  }
+
+  .kk-wisata-showcase .kk-wisata-carousel {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 1rem 1rem !important;
+    gap: 1rem !important;
+    scroll-padding-inline: 1rem !important;
+  }
+
+  .kk-wisata-showcase .kk-w-show-card,
+  .kk-wisata-showcase .kk-w-show-card.is-featured {
+    flex: 0 0 min(82vw, 340px) !important;
+    width: min(82vw, 340px) !important;
+    min-width: 0 !important;
+    transform: none !important;
+  }
+
+  .kk-wisata-showcase .kk-w-show-card img {
+    height: clamp(190px, 56vw, 250px) !important;
+  }
+
+  .kk-w-card-body {
+    padding: 1rem !important;
+  }
+
+  .kk-w-card-title {
+    font-size: 1.35rem !important;
+    line-height: 1.12 !important;
+  }
+
+  .kk-w-card-desc {
+    font-size: 0.86rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .kk-wisata-arrows {
+    justify-content: center !important;
+    margin-top: 1.25rem !important;
+  }
+
+  .kk-mp-cards {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.15rem !important;
+  }
+
+  .kk-mp-card {
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .kk-mp-store-panel,
+  .kk-mp-products-panel {
+    padding: 1rem !important;
+  }
+
+  .kk-mp-store-image-wrap,
+  .kk-mp-product-image-wrap {
+    min-height: 0 !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .kk-mp-store-info h3,
+  .kk-mp-product-info h4 {
+    font-size: clamp(1.45rem, 8vw, 2rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .kk-mp-product-card {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .kk-mp-wa {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .kk-vol-card,
+  .kk-kontak-info,
+  .kk-kontak-map,
+  .kk-access-info {
+    width: 100% !important;
+    border-radius: 10px !important;
+  }
+
+  .kk-vol-photo-wrap {
+    min-height: 0 !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .kk-vol-status-row,
+  .kk-vol-bottom,
+  .kk-vol-meta,
+  .kk-vol-legend {
+    align-items: stretch !important;
+    flex-direction: column !important;
+  }
+
+  .kk-vol-badge,
+  .kk-vol-refresh-btn,
+  .kk-map-btn,
+  .kk-social-link {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .kk-galeri-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
+
+  .kk-g-item,
+  .kk-g-item:nth-child(n) {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    min-height: 240px !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .kk-kontak-info,
+  .kk-kontak-map,
+  .kk-access-info {
+    padding: 1.15rem !important;
+  }
+
+  .kk-k-item {
+    display: grid !important;
+    grid-template-columns: 38px minmax(0, 1fr) !important;
+    gap: 0.8rem !important;
+    align-items: start !important;
+  }
+
+  .kk-k-val,
+  .kk-k-val a,
+  .kk-access-info p {
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  .kk-social-links,
+  .kk-map-btns {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.7rem !important;
+  }
+
+  .kk-kontak-map {
+    min-height: auto !important;
+  }
+
+  .kk-map-placeholder {
+    min-height: 240px !important;
+  }
+
+  .kk-footer-inner {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    text-align: left !important;
+  }
+
+  .kk-footer-links {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.65rem 1rem !important;
+    justify-content: stretch !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .kk-section-title,
+  .kk-about-headline,
+  .kk-vol-headline,
+  .kk-mp-header h2,
+  .kk-wisata-showcase h2,
+  .kk-galeri .kk-section-title,
+  .kk-kontak .kk-section-title,
+  .kk-journey-clean .kk-section-title {
+    font-size: clamp(2rem, 12vw, 3rem) !important;
+  }
+
+  .kk-hero h1 {
+    font-size: clamp(2.75rem, 17vw, 4.5rem) !important;
+  }
+
+  .kk-wisata-showcase .kk-w-show-card,
+  .kk-wisata-showcase .kk-w-show-card.is-featured {
+    flex-basis: 86vw !important;
+    width: 86vw !important;
+  }
+
+  .kk-footer-links {
+    grid-template-columns: 1fr !important;
+  }
+}
