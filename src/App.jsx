@@ -16,8 +16,6 @@ import "./styles/global.css";
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [navTone, setNavTone] = useState("light");
-  const [navSection, setNavSection] = useState("beranda");
   const [isAdminRoute, setIsAdminRoute] = useState(() => window.location.hash === "#admin");
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem("kk-theme");
@@ -26,36 +24,13 @@ export default function App() {
   });
 
   useEffect(() => {
-    const readNavTone = () => {
-      const sampleY = Math.min(120, window.innerHeight - 1);
-      const sampleX = Math.floor(window.innerWidth / 2);
-      const el = document.elementFromPoint(sampleX, sampleY);
-      const section = el?.closest?.("section, footer");
-      const sectionId =
-        section?.id ||
-        (section?.classList.contains("kk-cta-banner") ? "cta" : "") ||
-        (section?.classList.contains("kk-footer") ? "footer" : "") ||
-        "beranda";
-      const isDarkSurface =
-        section?.id === "beranda" ||
-        section?.id === "umkm" ||
-        section?.id === "galeri" ||
-        section?.classList.contains("kk-cta-banner") ||
-        section?.classList.contains("kk-footer");
-
+    const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      setNavTone(isDarkSurface ? "light" : "dark");
-      setNavSection(sectionId);
     };
 
-    const handleScroll = () => window.requestAnimationFrame(readNavTone);
-    readNavTone();
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -80,8 +55,6 @@ export default function App() {
     <>
       <Navbar
         scrolled={scrolled}
-        navTone={navTone}
-        navSection={navSection}
         onToggleMenu={() => setMenuOpen((prev) => !prev)}
         darkMode={darkMode}
         onToggleDark={toggleDark}

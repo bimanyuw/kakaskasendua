@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { kakaskasenGeojson } from "../../data/kakaskasenGeojson";
 import { journeyPoints } from "../../data/journeyPoints";
@@ -47,25 +47,6 @@ const boundaryStyle = {
   weight: 2.5,
   dashArray: null,
 };
-
-function FlyToFilter({ points, totalPoints }) {
-  const map = useMap();
-  useEffect(() => {
-    if (points.length === 0) return;
-    if (points.length === totalPoints) {
-      map.flyTo(MAP_CENTER, MAP_ZOOM, { duration: 0.8 });
-      return;
-    }
-    const lats = points.map(p => p.coordinates[1]);
-    const lngs = points.map(p => p.coordinates[0]);
-    const bounds = [
-      [Math.min(...lats) - 0.002, Math.min(...lngs) - 0.002],
-      [Math.max(...lats) + 0.002, Math.max(...lngs) + 0.002],
-    ];
-    map.flyToBounds(bounds, { padding: [40, 40], duration: 0.8, maxZoom: 16 });
-  }, [map, points, totalPoints]);
-  return null;
-}
 
 // Prevent map click-through on the filter popup
 function FilterPopup({ activeCategories, onToggle, onToggleAll, counts, open, onClose, buttonRef }) {
@@ -183,6 +164,7 @@ export default function JourneyMap() {
               maxZoom={MAP_MAX_ZOOM}
               maxBounds={MAP_BOUNDS}
               maxBoundsViscosity={1}
+              bounceAtZoomLimits={false}
               style={{ width: "100%", height: "100%", minHeight: "640px" }}
               zoomControl={false}
               scrollWheelZoom={true}
@@ -196,8 +178,6 @@ export default function JourneyMap() {
               />
 
               <GeoJSON data={kakaskasenGeojson} style={boundaryStyle} />
-              <FlyToFilter points={visiblePoints} totalPoints={storyPoints.length} />
-
               {visiblePoints.map(point => {
                 const cfg = categoryConfig[point.category] || { color: "#2B4D0F" };
                 const isSelected = selectedPoint?.id === point.id;

@@ -119,10 +119,18 @@ export default function KontakSection() {
 
           <FadeIn>
             <div className="kk-kontak-map">
-              <div className="kk-map-placeholder">
-                <MapPinLargeIcon />
-                <p>Kelurahan <span className="kk-kd">Kakaskasen Dua</span></p>
-                <p className="kk-map-placeholder-sub">Tomohon Utara, Sulawesi Utara</p>
+              <div className="kk-map-placeholder kk-map-embed-wrap">
+                <iframe
+                  title="Peta Kakaskasen Dua"
+                  src="https://www.google.com/maps?q=Kakaskasen%20Dua%20Tomohon%20Utara%20Sulawesi%20Utara&output=embed"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+                <div className="kk-map-overlay-label">
+                  <MapPinLargeIcon />
+                  <span>Kelurahan <span className="kk-kd">Kakaskasen Dua</span></span>
+                </div>
               </div>
 
               <div className="kk-map-btns">

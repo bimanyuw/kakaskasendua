@@ -10,7 +10,7 @@ export const wisataData = [
   },
   {
     cat: "alam",
-    img: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=600&q=80",
+    img: "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcT771NYNO08RN21px8mZxFHEu-K0SxHEHR8UlLND7SXUlLuyAzBLJJZI6cTAhn6ahEiJVCNmmovTP84vTdtjuCh034&s=19",
     alt: "Kawah Gunung Mahawu",
     cardCat: "Alam · Trekking",
     title: "Trekking Kawah Gunung Mahawu",

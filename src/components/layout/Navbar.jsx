@@ -1,12 +1,14 @@
-export default function Navbar({ scrolled, navTone = "light", navSection = "beranda", onToggleMenu, darkMode, onToggleDark }) {
+export default function Navbar({ scrolled, onToggleMenu, darkMode, onToggleDark }) {
   return (
     <nav
-      className={`kk-nav kk-nav-locked nav-${navTone} nav-section-${navSection}${scrolled ? " scrolled" : ""}`}
+      className={`kk-nav${scrolled ? " scrolled" : ""}`}
       id="mainNav"
       style={{
-        backgroundColor: "#241716",
-        borderBottom: "1px solid rgba(255, 248, 240, 0.28)",
-        boxShadow: "0 16px 42px rgba(36, 23, 22, 0.34)",
+        background: "rgba(36, 23, 22, 0.92)",
+        borderBottom: "1px solid rgba(255, 248, 240, 0.22)",
+        boxShadow: "0 14px 38px rgba(36, 23, 22, 0.28)",
+        backdropFilter: "blur(14px) saturate(1.18)",
+        WebkitBackdropFilter: "blur(14px) saturate(1.18)",
       }}
     >
       <div className="kk-nav-inner">
