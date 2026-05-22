@@ -8,13 +8,10 @@ export default function GaleriSection() {
   return (
     <section className="kk-galeri kk-section" id="galeri">
       <div className="kk-section-inner">
-        <FadeIn>
+        <FadeIn className="kk-section-heading">
           <p className="kk-section-label">Koleksi Visual</p>
-        </FadeIn>
-
-        <FadeIn>
           <h2 className="kk-section-title">
-            Galeri <em>Kakaskasen Dua</em>
+            Galeri <em className="kk-kd">Kakaskasen Dua</em>
           </h2>
         </FadeIn>
 

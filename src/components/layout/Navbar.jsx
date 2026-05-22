@@ -1,9 +1,17 @@
-export default function Navbar({ scrolled, onToggleMenu, darkMode, onToggleDark }) {
+export default function Navbar({ scrolled, navTone = "light", navSection = "beranda", onToggleMenu, darkMode, onToggleDark }) {
   return (
-    <nav className={`kk-nav${scrolled ? " scrolled" : ""}`} id="mainNav">
+    <nav
+      className={`kk-nav kk-nav-locked nav-${navTone} nav-section-${navSection}${scrolled ? " scrolled" : ""}`}
+      id="mainNav"
+      style={{
+        backgroundColor: "#241716",
+        borderBottom: "1px solid rgba(255, 248, 240, 0.28)",
+        boxShadow: "0 16px 42px rgba(36, 23, 22, 0.34)",
+      }}
+    >
       <div className="kk-nav-inner">
         <a href="#beranda" className="kk-nav-logo">
-          Kakaskasen <span>Dua</span>
+          <span className="kk-kd">Kakaskasen Dua</span>
         </a>
 
         <ul className="kk-nav-links">

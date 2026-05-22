@@ -28,6 +28,7 @@ export default function HighlightsSection() {
                 </div>
                 <div className="kk-hl-title">{item.title}</div>
                 <p className="kk-hl-desc">{item.desc}</p>
+                <span className="kk-hl-arrow">→</span>
               </a>
             </FadeIn>
           ))}

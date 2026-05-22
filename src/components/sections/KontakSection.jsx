@@ -11,11 +11,8 @@ export default function KontakSection() {
   return (
     <section className="kk-kontak kk-section" id="kontak">
       <div className="kk-section-inner">
-        <FadeIn>
+        <FadeIn className="kk-section-heading">
           <p className="kk-section-label">Temukan Kami</p>
-        </FadeIn>
-
-        <FadeIn>
           <h2 className="kk-section-title">
             Kontak & <em>Akses</em>
           </h2>
@@ -33,7 +30,7 @@ export default function KontakSection() {
                 <div>
                   <div className="kk-k-label">Alamat</div>
                   <div className="kk-k-val">
-                    Kelurahan Kakaskasen Dua, Kecamatan Tomohon Utara,
+                    Kelurahan <span className="kk-kd">Kakaskasen Dua</span>, Kecamatan Tomohon Utara,
                     Kota Tomohon, Sulawesi Utara
                   </div>
                 </div>
@@ -82,14 +79,7 @@ export default function KontakSection() {
               </div>
             </div>
 
-            <h3
-              style={{
-                fontFamily: "var(--serif)",
-                fontSize: "1.1rem",
-                fontWeight: 400,
-                margin: "1.5rem 0 .75rem",
-              }}
-            >
+            <h3 className="kk-kontak-subtitle">
               Media Sosial & Kanal Resmi
             </h3>
 
@@ -131,10 +121,8 @@ export default function KontakSection() {
             <div className="kk-kontak-map">
               <div className="kk-map-placeholder">
                 <MapPinLargeIcon />
-                <p>Kelurahan Kakaskasen Dua</p>
-                <p style={{ fontSize: ".75rem" }}>
-                  Tomohon Utara, Sulawesi Utara
-                </p>
+                <p>Kelurahan <span className="kk-kd">Kakaskasen Dua</span></p>
+                <p className="kk-map-placeholder-sub">Tomohon Utara, Sulawesi Utara</p>
               </div>
 
               <div className="kk-map-btns">
@@ -157,26 +145,10 @@ export default function KontakSection() {
               </div>
             </div>
 
-            <div
-              style={{
-                marginTop: "1.5rem",
-                padding: "1.25rem",
-                background: "var(--surface)",
-                borderRadius: "3px",
-                border: "1px solid var(--border)",
-              }}
-              className="kk-access-info"
-            >
-              <p
-                style={{
-                  fontSize: ".8rem",
-                  color: "var(--text-muted)",
-                  lineHeight: 1.7,
-                  fontWeight: 300,
-                }}
-              >
-                <strong style={{ fontWeight: 500, color: "var(--text)" }}>
-                  Akses menuju Kakaskasen Dua:
+            <div className="kk-access-info">
+              <p>
+                <strong>
+                  Akses menuju <span className="kk-kd">Kakaskasen Dua</span>:
                 </strong>
                 <br />
                 Dari pusat Kota Tomohon ke arah utara, sekitar 10–15 menit

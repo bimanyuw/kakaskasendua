@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className="kk-footer">
       <div className="kk-footer-inner">
         <div className="kk-footer-logo">
-          Kakaskasen <span>Dua</span> — Desa Wisata
+          <span className="kk-kd">Kakaskasen Dua</span> - Desa Wisata
         </div>
 
         <div className="kk-footer-links">
@@ -18,12 +18,12 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer"
           >
-            Jadesta ↗
+            Jadesta
           </a>
         </div>
 
         <div className="kk-footer-copy">
-          © 2025 Desa Wisata Kakaskasen II, Tomohon Utara
+          (c) 2025 Desa Wisata Kakaskasen II, Tomohon Utara
         </div>
       </div>
     </footer>

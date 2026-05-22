@@ -26,12 +26,12 @@ export default function CtaBanner() {
         <FadeIn>
           <div className="kk-cta-eyebrow">
             <span className="kk-cta-eyebrow-dot"></span>
-            Desa Wisata Kakaskasen Dua
+            Desa Wisata <span className="kk-kd">Kakaskasen Dua</span>
           </div>
           <h2 className="kk-cta-title">
             Siap menjelajahi
             <br />
-            <em>Kakaskasen Dua?</em>
+            <em className="kk-kd">Kakaskasen Dua?</em>
           </h2>
           <p className="kk-cta-desc">
             Hubungi pengelola atau lihat paket resmi di Jadesta untuk

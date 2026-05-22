@@ -7,6 +7,12 @@ import { useAdminCollection } from "../../hooks/useAdminCollection";
 
 const MAP_CENTER = [1.3505, 124.831];
 const MAP_ZOOM = 14;
+const MAP_MIN_ZOOM = 13;
+const MAP_MAX_ZOOM = 17;
+const MAP_BOUNDS = [
+  [1.3395, 124.769],
+  [1.3845, 124.8685],
+];
 
 const categoryConfig = {
   wisata:     { color: "#3D6B17", bg: "#EEF5E6", border: "#C8DAB0", label: "Destinasi Wisata",  emoji: "🌿" },
@@ -15,6 +21,18 @@ const categoryConfig = {
 };
 
 const allCategories = Object.keys(categoryConfig);
+
+function MarkKakaskasenDua({ text }) {
+  const parts = String(text).split(/(Kakaskasen Dua)/gi);
+
+  return parts.map((part, index) =>
+    part.toLowerCase() === "kakaskasen dua" ? (
+      <span className="kk-kd" key={index}>{part}</span>
+    ) : (
+      part
+    )
+  );
+}
 
 function getCounts(points) {
   const c = { all: points.length };
@@ -44,7 +62,7 @@ function FlyToFilter({ points, totalPoints }) {
       [Math.min(...lats) - 0.002, Math.min(...lngs) - 0.002],
       [Math.max(...lats) + 0.002, Math.max(...lngs) + 0.002],
     ];
-    map.flyToBounds(bounds, { padding: [40, 40], duration: 0.8 });
+    map.flyToBounds(bounds, { padding: [40, 40], duration: 0.8, maxZoom: 16 });
   }, [map, points, totalPoints]);
   return null;
 }
@@ -161,16 +179,20 @@ export default function JourneyMap() {
             <MapContainer
               center={MAP_CENTER}
               zoom={MAP_ZOOM}
+              minZoom={MAP_MIN_ZOOM}
+              maxZoom={MAP_MAX_ZOOM}
+              maxBounds={MAP_BOUNDS}
+              maxBoundsViscosity={1}
               style={{ width: "100%", height: "100%", minHeight: "640px" }}
               zoomControl={false}
               scrollWheelZoom={true}
               className="jm-leaflet-map"
             >
               <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
                 subdomains="abcd"
-                maxZoom={20}
+                maxZoom={MAP_MAX_ZOOM}
               />
 
               <GeoJSON data={kakaskasenGeojson} style={boundaryStyle} />
@@ -206,7 +228,7 @@ export default function JourneyMap() {
                       className="jm-leaflet-tooltip"
                     >
                       <div className="jm-tt-inner">
-                        <div className="jm-tt-name">{point.name}</div>
+                        <div className="jm-tt-name"><MarkKakaskasenDua text={point.name} /></div>
                         <div className="jm-tt-badge"
                           style={{ background: cfg.bg, color: cfg.color, border: "1px solid " + cfg.border }}>
                           {cfg.emoji} {cfg.label}
@@ -267,8 +289,8 @@ export default function JourneyMap() {
                   style={{ background: selCfg.bg, color: selCfg.color, border: "1px solid " + selCfg.border }}>
                   {selCfg.emoji} {selCfg.label}
                 </div>
-                <div className="jm-inmap-detail-title">{selectedPoint.title}</div>
-                <div className="jm-inmap-detail-text">{selectedPoint.text}</div>
+                <div className="jm-inmap-detail-title"><MarkKakaskasenDua text={selectedPoint.title} /></div>
+                <div className="jm-inmap-detail-text"><MarkKakaskasenDua text={selectedPoint.text} /></div>
                 <button className="jm-inmap-detail-close" onClick={() => setSelectedPoint(null)}>
                   ✕ Tutup
                 </button>
