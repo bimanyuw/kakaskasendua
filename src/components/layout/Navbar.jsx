@@ -1,7 +1,7 @@
 export default function Navbar({ scrolled, onToggleMenu, darkMode, onToggleDark }) {
   return (
     <nav
-      className={`kk-nav${scrolled ? " scrolled" : ""}`}
+      className={`kk-nav kk-nav-fixed-tone${scrolled ? " scrolled" : ""}`}
       id="mainNav"
       style={{
         background: "rgba(36, 23, 22, 0.92)",

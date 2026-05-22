@@ -10740,6 +10740,41 @@ button {
   background: rgba(255, 255, 255, 0.06) !important;
 }
 
+/* Vercel-safe navbar lock: overrides every older .kk-nav rule */
+html body #root .kk-nav.kk-nav-fixed-tone,
+html body #root .kk-nav.kk-nav-fixed-tone.scrolled {
+  background: rgba(36, 23, 22, 0.92) !important;
+  background-color: rgba(36, 23, 22, 0.92) !important;
+  border-bottom: 1px solid rgba(255, 248, 240, 0.22) !important;
+  box-shadow: 0 14px 38px rgba(36, 23, 22, 0.28) !important;
+  backdrop-filter: blur(14px) saturate(1.18) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.18) !important;
+}
+
+html body #root .kk-nav.kk-nav-fixed-tone::before {
+  display: none !important;
+}
+
+html body #root .kk-nav.kk-nav-fixed-tone .kk-nav-logo,
+html body #root .kk-nav.kk-nav-fixed-tone .kk-nav-logo span,
+html body #root .kk-nav.kk-nav-fixed-tone .kk-nav-logo .kk-kd,
+html body #root .kk-nav.kk-nav-fixed-tone .kk-nav-links a,
+html body #root .kk-nav.kk-nav-fixed-tone .kk-nav-links a:hover,
+html body #root .kk-nav.kk-nav-fixed-tone .kk-nav-cta {
+  color: #fff8f0 !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.32) !important;
+}
+
+html body #root .kk-nav.kk-nav-fixed-tone .kk-nav-burger span {
+  background: #fff8f0 !important;
+}
+
+html body #root .kk-nav.kk-nav-fixed-tone .kk-dark-toggle {
+  border-color: rgba(255, 248, 240, 0.28) !important;
+  color: #fff8f0 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
 /* Final burger polish */
 .kk-nav .kk-nav-burger {
   width: 44px !important;
